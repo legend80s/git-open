@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+// @ts-check
+const { execSync } = require('node:child_process');
+
+function main() {
+  const gitUrl = execSync('git remote get-url origin').toString('utf8');
+
+  const https = gitToHttps(gitUrl);
+
+  execSync(`open ${https}`);
+}
+
+main();
+
+/**
+ * @param {string} git example "git@github.com:legend80s/eslint-plugin-function-name.git"
+ * @returns {string}
+ */
+function gitToHttps(git) {
+  return git.replace(':', '/').replace('git@', 'https://').replace('.git', '');
+}
